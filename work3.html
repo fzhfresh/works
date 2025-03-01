@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="start">
+    <input type="text" id="end">
+    <button onclick="activate()">求和</button>
+    <script>
+        function activate() {
+            let start = document.getElementById("start").value;
+            let end = document.getElementById("end").value;
+            sum(parseInt(start), parseInt(end));
+        }
+        function sum(start, end) {
+            let sum = 0;
+            for (let i = start; i <= end; i++) {
+                sum += i;
+            }
+            console.log(sum);
+        }
+
+    </script>
+</body>
+</html>

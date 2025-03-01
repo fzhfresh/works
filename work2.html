@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+            document.getElementById("btn").onclick = function() {
+                // alert("11111");
+                const message = document.getElementById("content").value;
+                // console.log(message);
+                document.getElementById("show").innerHTML = message;
+            }
+        }
+        function showMessage() {
+            const message = document.getElementById("content").value;
+            document.getElementById("show").innerHTML = message;
+        }
+
+    </script>
+</head>
+
+<body>
+<form action="">
+    <input type="text" id="content"/>
+    <!-- <button id="btn">显示</button> -->
+    <button type="button" id="btn" onclick="showMessage()">显示</button> <!-- 修改按钮类型为 button -->
+    <!-- <button type="button" id="btn">显示</button>-->
+    <!-- <input type="button" id="button" value="提交"> -->
+</form>
+<div id="show"></div>
+</body>
+</html>

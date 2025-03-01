@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>等腰三角形</title>
+</head>
+<body>
+    <h1>等腰三角形</h1>
+    <button onclick="generateTriangle()">等腰三角形</button>
+    <pre id="triangleOutput"></pre>
+
+    <script>
+        function generateTriangle() {
+            // 使用 prompt() 获取用户输入的行数
+            let rows = prompt("请输入行数：");
+
+            // 检查输入是否为有效数字
+            if (rows === null || rows <= 0 || isNaN(rows)) {
+                document.getElementById("triangleOutput").textContent = "请输入一个有效的正整数！";
+                return;
+            }
+
+            // 初始化三角形的字符串
+            let triangle = "";
+
+            // 循环生成三角形
+            for (let i = 1; i <= rows; i++) {
+                // 每行的空格数
+                let spaces = " ".repeat(rows - i);
+                // 每行的星号数
+                let stars = "*".repeat(2 * i - 1);
+                // 将空格和星号拼接成一行
+                triangle += spaces + stars + "\n";
+            }
+
+            // 输出三角形到页面
+            document.getElementById("triangleOutput").textContent = triangle;
+        }
+    </script>
+</body>
+</html>
