@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米商城 - 手机</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f5f5f546;
+        }
+        #app {
+            width: 1226px; 
+            margin: 20px auto;
+            /* background-color: #ffffff17; */
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* border-bottom: 1px solid #e0e0e0; */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .header .title {
+            font-size: 24px;
+            font-weight: normal;
+        }
+        .header .more {
+            font-size: 14px;
+            color: #757575;
+        }
+        .header .more .more-link {
+             text-decoration: none; 
+             color: #757575; 
+             display: flex; 
+             align-items: center;
+             transition: color .3s; 
+        }
+        .header .more .more-link:hover {
+            color: #ff6700; /* 悬停时颜色 */
+        }
+        .header .more .more-link span {
+            margin-right: 5px; 
+        }
+        .header .more .more-link svg {
+            font-size: 12px; 
+            width: 16px; 
+            height: 16px; 
+            border: 1px solid #b0b0b0; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            transition: all .2s linear;
+            box-sizing: border-box; 
+            padding: 2px; 
+        }
+         .header .more .more-link:hover svg {
+            border-color: #ff6700; 
+        }
+         .header .more .more-link:hover svg path {
+             fill: #ff6700; 
+         }
+        .body {
+            display: flex;
+        }
+        .left-image {
+            width: 234px;
+            margin-right: 14px;
+        }
+        .left-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .right-list {
+            flex-grow: 1;
+            width: 978px;
+        }
+        .brick-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .brick-item {
+            width: 234px;
+            background-color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            box-sizing: border-box;
+            transition: all .2s linear;
+        }
+        .brick-item:hover {
+             box-shadow: 0 2px 10px rgba(0,0,0,.15);
+             margin-top: -1px;
+             z-index: 1;
+        }
+        .brick-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .brick-item .figure-img img {
+            width: 150px; 
+            height: 150px; 
+            margin: 0 auto 10px;
+        }
+        .brick-item .title {
+            font-size: 14px;
+            margin: 0 0 5px;
+            font-weight: normal;
+            color: #333;
+        }
+        .brick-item .desc {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin: 0 0 10px;
+        }
+        .brick-item .price {
+            font-size: 14px;
+            color: #ff6700;
+            margin: 0;
+        }
+        .brick-item .price .num {
+            font-size: 14px; 
+        }
+        .brick-item .price del {
+            color: #b0b0b0;
+            margin-left: 5px; 
+        }
+         .brick-item .price del .num {
+            font-size: 14px;
+        }
+         .clear-fix::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="header">
+            <div class="title">手机</div>
+            <div class="more">
+                <a href="#" class="more-link">
+                    <span>查看更多</span>
+                    <!-- 内联 SVG 图标 -->
+                    <svg t="1747627074654" class="icon" viewBox="0 0 1109 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4559" width="200" height="200"><path d="M746.026667 512L384 874.026667l-42.581333-42.581334L660.864 512 341.418667 192.554667 384 149.973333z" fill="#B2B2B2" p-id="4560"></path></svg>
+                </a>
+            </div>
+        </div>
+        <div class="body">
+            <div class="left-image">
+                <!-- 左侧大图 -->
+                 <a href="#">
+                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/55d2e50dd3783b52244ea3938e9dfca7.png?thumb=1&w=351&h=921&f=webp&q=90" alt="小米13 Ultra">
+                 </a>
+            </div>
+            <!-- 右侧列表 -->
+            <div class="right-list">
+                <ul class="brick-list clear-fix">
+                    <li v-for="phone in phoneList" :key="phone.id" class="brick-item brick-item-m brick-item-m-2">
+                        <a :href="'https://www.mi.com/shop/buy?product_id=' + phone.id" target="_blank">
+                            <div class="figure figure-img">
+                                <img :src="phone.img" :alt="phone.title">
+                            </div>
+                            <h3 class="title">{{ phone.title }}</h3>
+                            <p class="desc">{{ truncateText(phone.des, 22) }}</p>
+                            <p class="price">
+                                <span class="num">{{ phone.price }}</span>元起
+                                <!-- 如果有原价，则显示删除线价格 -->
+                                <del v-if="phone.oldPrice">
+                                    <span class="num">{{ phone.oldPrice }}</span>元
+                                </del>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    phoneList: [
+                        {id:'100081',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1745466840.36736682.png',title:'REDMI Turbo 4 Pro',des:'Turbo 4 Pro 好看，更能打！',price:'1999',oldPrice:'2100'},
+                        {id:'100082',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1740578505.62083295.png',title:'Xiaomi 15 Ultra',des:'徕卡1英寸主摄 | 徕卡2亿超级长焦 | 徕卡超纯光学系统 | 骁龙8至尊版移动平台 | 6000mAh 小米金沙江电池 | 小米澎湃OS 2',price:'6499',oldPrice:null},
+                        {id:'100083',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1735625086.59881345.png',title:'REDMI Turbo 4',des:'REDMI Turbo 4 好看又能打',price:'1699',oldPrice:'1999'},
+                        {id:'100084',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1747225812.81827276.png',title:'Redmi 14C',des:'大屏大音量 耐用好品质',price:'469',oldPrice:null},
+                        {id:'100085',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1732592430.18314129.png',title:'REDMI K80 Pro',des:'骁龙8至尊版|狂暴引擎4.0|游戏独显D1芯片|2K新国屏|小米青山护眼2.0|光影猎人全焦段影像|浮动长焦镜头|6000mAh小米金沙江电池|120W秒充|超声波指纹|50W无线秒充',price:'3299',oldPrice:'3699'},
+                        {id:'100086',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1732592180.69595371.png',title:'REDMI K80',des:'第三代骁龙8|狂暴引擎4.0|2K新国屏|小米青山护眼2.0|6550mAh超长续航|90W闪充|IP68|超声波指纹',price:'2299',oldPrice:'2499'},
+                        {id:'100087',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1730124020.8676597.png',title:'Xiaomi 15',des:'徕卡光学 Summilux 高速镜头｜骁龙®8至尊版移动平台｜5400mAh 小米金沙江电池 小米澎湃OS 2｜全生态AI助手 超级小爱｜低功耗超级阳光屏',price:'4099',oldPrice:'4199'},
+                        {id:'100088',img:'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1730124467.90698943.png',title:'Xiaomi 15 Pro',des:'徕卡光学 Summilux 高速镜头｜骁龙®8至尊版移动平台｜6100mAh 小米金沙江电池 120mm 徕卡潜望长焦 ｜小米澎湃OS 2｜全生态AI助手 超级小爱',price:'4999',oldPrice:null},
+                    ]
+                }
+            },
+            methods: {
+                // 截断文本的方法
+                truncateText(text, maxLength) {
+                    if (text && text.length > maxLength) {
+                        return text.substring(0, maxLength) + '...';
+                    }
+                    return text;
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+</html>
