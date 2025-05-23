@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vue + Mitt 通信示例</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h2>Mitt 组件通信示例</h2>
+    <p>{{ designIdea }}</p>
+
+    <hr>
+    <h3>父组件</h3>
+    <p>从子组件收到：{{ fromChild }}</p>
+    <child-component :msg="msgToChild" @reply="handleReply"></child-component>
+
+    <hr>
+    <unrelated-component></unrelated-component>
+  </div>
+
+  <script>
+    const emitter = mitt(); // 创建全局 event bus
+
+    const ChildComponent = {
+      props: ['msg'],
+      template: `
+        <div style="border: 1px solid gray; padding: 10px;">
+          <h4>子组件</h4>
+          <p>收到父组件的消息：{{ msg }}</p>
+          <button @click="replyParent">回复父组件</button>
+          <button @click="broadcast">广播消息（Mitt）</button>
+        </div>
+      `,
+      methods: {
+        replyParent() {
+          this.$emit('reply', '这是子组件传给父组件的消息');
+        },
+        broadcast() {
+          emitter.emit('custom-event', '这是子组件通过 Mitt 发出的广播消息');
+        }
+      }
+    };
+
+    const UnrelatedComponent = {
+      data() {
+        return {
+          msg: ''
+        };
+      },
+      mounted() {
+        emitter.on('custom-event', (data) => {
+          this.msg = data;
+        });
+      },
+      template: `
+        <div style="border: 1px solid blue; padding: 10px;">
+          <h4>非父子组件</h4>
+          <p>通过 Mitt 接收到的消息：{{ msg }}</p>
+        </div>
+      `
+    };
+
+    const app = Vue.createApp({
+      data() {
+        return {
+          msgToChild: '这是父组件传给子组件的消息',
+          fromChild: '',
+          designIdea: `本示例使用 Mitt 实现 Vue3 组件通信。设计了三个通信方式：
+1. 父传子：通过 props 实现。
+2. 子传父：通过 $emit 实现。
+3. 非父子通信：通过 Mitt 实现广播与监听。Mitt 是轻量的事件总线工具，适合组件解耦通信。`
+        };
+      },
+      methods: {
+        handleReply(msg) {
+          this.fromChild = msg;
+        }
+      },
+      components: {
+        'child-component': ChildComponent,
+        'unrelated-component': UnrelatedComponent
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
